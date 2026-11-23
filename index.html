@@ -174,6 +174,7 @@ window.clscParse=function(src,now){
  if(!r.date)MON.forEach(function(mn,i){if(r.date)return;cut(new RegExp('(?:วันที่\\s*)?(\\d{1,2})\\s*(?:'+mn[0]+'|'+mn[1]+')\\s*(?:(?:พ\\.?ศ\\.?|ปี)\\s*)?(\\d{4})?'),function(m){return fix(+m[1],i+1,yr(m[2],now.getFullYear()),!!m[2])})});
  if(!r.date)cut(/วันที่\s*(\d{1,2})/,function(m){var d=+m[1],x=new Date(now.getFullYear(),now.getMonth(),d);if(x.getDate()!==d)return false;if(x<t0)x=new Date(now.getFullYear(),now.getMonth()+1,d);day(x)});
  if(!r.date)WD.forEach(function(w,i){if(r.date)return;cut(new RegExp('(?:วัน)?(?:'+w+')(?:\\s*หน้า|\\s*นี้)?'),function(){var df=(i-t0.getDay()+7)%7||7;day(new Date(t0.getTime()+df*864e5))})});
+ if(!r.date)cut(/^\s*(\d{1,2})(?!\d)(?!\s*(?:โมง|ทุ่ม|[:.\/\-]|ชั่วโมง|นาที|นาฬิกา))/,function(m){var d=+m[1],x=new Date(now.getFullYear(),now.getMonth(),d);if(d<1||x.getDate()!==d)return false;if(x<t0)x=new Date(now.getFullYear(),now.getMonth()+1,d);day(x)});
  var had=!!r.date;function rd(re,n){cut(re,function(){if(!had&&!r.date)day(new Date(t0.getTime()+n*864e5))})}
  rd(/มะรืน(?:นี้)?/,2);rd(/พรุ่งนี้/,1);rd(/วันนี้/,0);
  // time
@@ -194,7 +195,7 @@ window.clscParse=function(src,now){
  parts.push([key,s.slice(last)]);
  function cl(x){return x.replace(/\s+/g,' ').replace(/^[\s,.:\-]+|[\s,.:\-]+$/g,'').replace(/^(คือ|ที่|ว่า)\s*/,'').replace(/\s*(นะ|ครับ|ค่ะ|คะ|จ้า)+$/,'').trim()}
  parts.forEach(function(p){var v=cl(p[1]);if(!v)return;r[p[0]]=r[p[0]]?r[p[0]]+' '+v:v});
- if(r.title)r.title=r.title.replace(/^มี\s*(?=นัด)/,'').replace(/^วัน\s+/,'').trim();
+ if(r.title&&/^\d{1,2}$/.test(r.title))delete r.title;if(r.title)r.title=r.title.replace(/^มี\s*(?=นัด)/,'').replace(/^วัน\s+/,'').trim();
  if(!r.title&&r.place)r.title='นัด '+r.place;
  return r};
 })();

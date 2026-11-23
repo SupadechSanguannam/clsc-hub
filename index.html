@@ -333,5 +333,5 @@ wx();night();setInterval(wx,30*60000);setInterval(night,60000)})();</script>
     typ.textContent=s.slice(0,Math.max(0,Math.min(ci,s.length)))},45);
 })();
 </script>
-</body>
+<script>(function(){var B='202611230909';window.CLSC_BUILD=B;var last=0;function chk(){if(location.protocol.indexOf('http')!==0||!window.fetch)return;var n=Date.now();if(n-last<5*60000)return;last=n;fetch(location.pathname+'?u='+n,{cache:'no-store'}).then(function(r){return r.text()}).then(function(t){var m=t.match(/CLSC_BUILD_ID=(\d+)/);if(m&&m[1]!==B&&!document.getElementById('appt').classList.contains('on'))location.reload()}).catch(function(){})}document.addEventListener('visibilitychange',function(){if(!document.hidden)chk()});setInterval(chk,10*60000)})();</script><!-- CLSC_BUILD_ID=202611230909 --></body>
 </html>
